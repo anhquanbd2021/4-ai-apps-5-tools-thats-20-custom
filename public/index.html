@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The Connector Patch Bay — a patch-panel lab where bespoke AI-app connectors cost M×N and a shared MCP layer costs M+N.">
+  <title>4 Ai Apps 5 Tools Thats 20 Custom Lab — The Connector Patch Bay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="/styles.css">
+<!-- pb-shell --><link rel="stylesheet" href="./pb-shell.css"><!-- pb-shell --><!-- pb-back --><link rel="stylesheet" href="./pb-back.css"><!-- pb-back --></head>
+<body>
+<a class="skip-link" href="#bay-title">Skip to the patch bay</a>
+<main>
+  <nav aria-label="Primary"><a aria-current="page" href="/">Lab</a><a href="/guide.html">Guide</a><a href="https://github.com/anhquanbd2021/4-ai-apps-5-tools-thats-20-custom">Source</a></nav>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">The Connector Patch Bay · 4 apps × 5 tools</p>
+      <h1>Twenty cables.<br>Or nine.</h1>
+      <p class="lede">Every AI app wired to every tool is a connector you build, test, secure, and maintain — <em>4 × 5 = 20</em>. Flip the bay to MCP and each side plugs into one shared protocol instead: <em>4 + 5 = 9</em>. Watch the cables re-route and the count collapse.</p>
+    </div>
+    <p class="warning"><strong>Educational model.</strong> Every connector is simulated in your browser — nothing is deployed, no real database is queried, and the drift is seeded on purpose.</p>
+  </header>
+
+  <section class="panel controls" aria-labelledby="controls-title">
+    <div class="section-heading">
+      <div><p class="eyebrow">Run configuration</p><h2 id="controls-title">Patch mode</h2></div>
+      <span id="count-badge" class="badge" role="status" aria-live="polite">20 connectors</span>
+    </div>
+    <div class="toggle-row">
+      <fieldset>
+        <legend>Wiring</legend>
+        <label><input type="radio" name="mode" value="bespoke" checked> <span>bespoke — every app hand-wires every tool</span></label>
+        <label><input type="radio" name="mode" value="mcp"> <span>mcp — one client adapter per app, one server per tool</span></label>
+      </fieldset>
+      <fieldset>
+        <legend>Grow the stack</legend>
+        <div class="btn-row">
+          <button id="add-tool" type="button">Add a tool</button>
+          <button id="add-app" type="button">Add an app</button>
+          <button id="reset" type="button" class="ghost">Reset</button>
+        </div>
+        <p class="muted inset">Bespoke: +4 cables per tool, +5 per app. MCP: +1 adapter either way.</p>
+      </fieldset>
+    </div>
+    <p class="muted">The counter is the whole pitch: watch it tick 20 → 9 when the cables re-route through the brass MCP bus. <span id="server-check" class="server-check"></span></p>
+  </section>
+
+  <section class="workspace" aria-label="Patch bay and probe">
+    <section class="panel" aria-labelledby="bay-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">Patch bay</p><h2 id="bay-title">Apps × tools</h2></div>
+        <span id="matrix-badge" class="badge dim-badge">4 × 5</span>
+      </div>
+      <div id="bay" class="bay" aria-label="Connector matrix — apps as rows, tools as columns"></div>
+      <p class="muted legend">⇄ read-write · → read-only · <span class="amber-key">amber splice</span> = the drifted connector · B·T·S·M = build, test, secure, maintain — each cable carries all four.</p>
+    </section>
+    <section class="panel" aria-labelledby="probe-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">One request, every path</p><h2 id="probe-title">Probe Postgres</h2></div>
+        <button id="probe" type="button">Probe</button>
+      </div>
+      <p class="muted">Sends <code>SELECT id, email, phone FROM customers LIMIT 3</code> through every connector to Postgres and compares what comes back.</p>
+      <ol id="probe-results" class="probes" aria-label="Probe results"></ol>
+      <p id="probe-verdict" class="verdict muted" role="status" aria-live="polite">Run the probe to compare connector payloads.</p>
+    </section>
+  </section>
+
+  <p class="closing-links"><a href="/guide.html">Read the feature-by-feature guide</a><span class="sep" aria-hidden="true">·</span><a href="https://github.com/anhquanbd2021/4-ai-apps-5-tools-thats-20-custom">Inspect source and tests</a></p>
+</main>
+<script type="module" src="/app.js"></script>
+<!-- pb-shell --><a class="pb-shell" href="https://github.com/anhquanbd2021/4-ai-apps-5-tools-thats-20-custom" title="4-ai-apps-5-tools-thats-20-custom — an Article Playbook demo (view source)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="#2dd4bf"/><rect x="13" y="2" width="9" height="9" rx="2" fill="#2dd4bf" opacity=".45"/><rect x="2" y="13" width="9" height="9" rx="2" fill="#2dd4bf" opacity=".45"/><rect x="13" y="13" width="9" height="9" rx="4.5" fill="#2dd4bf"/></svg><b>4-ai-apps-5-tools-thats-20-custom</b><i>DEMO</i></a><!-- pb-shell --><!-- pb-back --><a class="pb-back" id="pb-back" href="https://github.com/anhquanbd2021/4-ai-apps-5-tools-thats-20-custom" title="Back to the article — 4-ai-apps-5-tools-thats-20-custom">← Article <i>PLAYBOOK</i></a><script>(function(){var a=document.getElementById('pb-back');if(!a)return;var h=location.hostname;if(/^(localhost|127\.0\.0\.1|192\.168\.|10\.|172\.(1[6-9]|2[0-9]|3[01])\.)/.test(h)){a.href='//'+h+':'+(/^(localhost|127\.0\.0\.1)$/.test(h)?'1234':'30082')+'/microsites/article.html?slug=4-ai-apps-5-tools-thats-20-custom';}})();</script><!-- pb-back --></body>
+</html>

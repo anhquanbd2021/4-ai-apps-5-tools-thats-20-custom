@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Guide to the Connector Patch Bay — how M×N bespoke connectors collapse to M+N adapters, and what drift looks like.">
+<title>Connector Patch Bay Guide — 4 Ai Apps 5 Tools Thats 20 Custom Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<!-- pb-shell --><link rel="stylesheet" href="./pb-shell.css"><!-- pb-shell --><!-- pb-back --><link rel="stylesheet" href="./pb-back.css"><!-- pb-back --></head>
+<body>
+<a class="skip-link" href="#guide-start">Skip to the guide</a>
+<main>
+  <nav aria-label="Primary"><a href="/">Lab</a><a aria-current="page" href="/guide.html">Guide</a><a href="https://github.com/anhquanbd2021/4-ai-apps-5-tools-thats-20-custom">Source</a></nav>
+
+  <header class="guide-intro">
+    <p class="eyebrow">Feature-by-feature guide</p>
+    <h1>One bay, two ways to wire it</h1>
+    <p class="lede">The bay mounts four AI apps on the left rail and five tools across the top. This page maps every control to the integration cost it exposes — and to the drift only a shared protocol removes.</p>
+    <p class="warning"><strong>Honest limits.</strong> Connectors here are deterministic fixtures, not live integrations. Real bespoke drift hides in auth flows, retry policies, and pagination — the payload shape is just the easiest one to see.</p>
+  </header>
+
+  <section class="panel" id="guide-start">
+    <p class="eyebrow">Start here</p>
+    <h2>What this demo proves</h2>
+    <p>Toggle <em>bespoke → mcp</em>: twenty patch cables unplug and re-route through the brass bus, and the counter ticks 20 → 9. Then grow the stack — a new tool costs four connectors in bespoke, one adapter in MCP. Finally probe Postgres: in bespoke the support chatbot's hand-rolled connector answers with a different shape than its three neighbors; in MCP all four answers are byte-identical.</p>
+    <p><a class="try" href="/">Open the bay</a></p>
+  </section>
+
+  <section class="guide-section">
+    <p class="eyebrow">The controls</p>
+    <h2>What each one demonstrates</h2>
+    <div class="control-grid">
+      <article class="panel control"><span class="control-number">Control 01</span><h3>Wiring mode</h3><p>The bespoke↔mcp toggle. Bespoke fills every cell of the 4×5 matrix with its own cable; MCP replaces the grid with four client adapters and five server adapters on a shared bus.</p><dl><dt>Proves</dt><dd>M×N pairwise work collapses to M+N protocol adapters.</dd><dt>Key detail</dt><dd>Counter reads <code>connectorCount()</code> — the arithmetic is the model, not a hardcoded 20/9.</dd></dl></article>
+      <article class="panel control"><span class="control-number">Control 02</span><h3>Add a tool</h3><p>Patches a new tool jack into the bay. Bespoke spawns one connector per app — each stamped <code>B·T·S·M</code> for the build, test, secure, and maintain work it inherits.</p><dl><dt>Proves</dt><dd>The failure mode: marginal cost grows with M in bespoke, stays at 1 in MCP.</dd><dt>Key detail</dt><dd><code>addTool()</code> returns the added connectors — +4 vs +1, side by side.</dd></dl></article>
+      <article class="panel control"><span class="control-number">Control 03</span><h3>Add an app</h3><p>Mounts a new app jack on the rail. Bespoke spawns one connector per tool; MCP spawns a single client adapter.</p><dl><dt>Proves</dt><dd>Symmetry: growth hurts on whichever axis it happens.</dd><dt>Key detail</dt><dd><code>addApp()</code> mirrors <code>addTool()</code> — +5 vs +1 on the stock bay.</dd></dl></article>
+      <article class="panel control"><span class="control-number">Control 04</span><h3>Probe Postgres</h3><p>Fires one fixed <code>SELECT</code> through every path to Postgres and prints each connector's payload card.</p><dl><dt>Proves</dt><dd>Duplicated connectors drift: <code>support-chat</code> answers <code>{records:[…]}</code> with NULLs dropped while the rest answer <code>{rows:[…]}</code>.</dd><dt>Key detail</dt><dd><code>driftReport()</code> groups payloads — amber cards are the minority shape.</dd></dl></article>
+      <article class="panel control"><span class="control-number">Control 05</span><h3>Direction badges</h3><p>Every cable carries a direction mark. Two bespoke Postgres connectors shipped SELECT-only and show <code>→</code>; everything else is <code>⇄</code> read-write.</p><dl><dt>Proves</dt><dd>MCP arrows point both ways — a connector can act, not just fetch.</dd><dt>Key detail</dt><dd>A write probe returns <code>ok:false</code> on the two read-only cables.</dd></dl></article>
+      <article class="panel control"><span class="control-number">Control 06</span><h3>Server-checked count</h3><p>The counter badge is computed client-side, then cross-checked against <code>GET /api/count?mode=…&amp;apps=…&amp;tools=…</code> on the server.</p><dl><dt>Proves</dt><dd>Browser and server agree — the M×N vs M+N arithmetic is one rule, not a UI trick.</dd><dt>Key detail</dt><dd>Bad params get a <code>400</code> with an explanatory JSON body.</dd></dl></article>
+    </div>
+  </section>
+
+  <section class="guide-section">
+    <p class="eyebrow">Architecture</p>
+    <h2>How the demo is built</h2>
+    <div class="table-wrap panel" tabindex="0" role="region" aria-label="Architecture table — layer, behavior, evidence">
+      <table>
+        <thead><tr><th>Layer</th><th>Behavior</th><th>Evidence</th></tr></thead>
+        <tbody>
+          <tr><td>Model</td><td>Apps, tools, connectors, probes — the whole M×N/M+N world as pure functions.</td><td><code>public/lab.mjs</code></td></tr>
+          <tr><td>UI</td><td>Patch-bay grid, mode toggle, probe results — plain DOM, no framework.</td><td><code>public/app.js</code></td></tr>
+          <tr><td>Server</td><td>Zero-dependency static host plus <code>/health</code>, <code>/version</code>, and <code>/api/count</code>.</td><td><code>app/server.js</code></td></tr>
+          <tr><td>Scenarios</td><td>Readable bespoke/MCP fixture wrappers for the two wiring worlds.</td><td><code>examples/</code></td></tr>
+          <tr><td>CLI</td><td>Prints the connector matrix and probe divergence in a terminal.</td><td><code>scripts/matrix.mjs</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="guide-section">
+    <p class="eyebrow">Run locally</p>
+    <h2>Inspect the evidence</h2>
+    <pre class="code-block">npm test         # unit + server contract + e2e failure scenario
+npm run matrix   # CLI: the 4×5 grid, 20 vs 9, drift report
+npm run check    # both
+npm start        # serve the lab on :3000</pre>
+    <p>Try <code>node scripts/matrix.mjs --mcp --add-tool redis</code> to watch a sixth tool land as one adapter instead of four connectors.</p>
+  </section>
+
+  <section class="guide-section panel">
+    <p class="eyebrow">Limits</p>
+    <h2>What this demo does not claim</h2>
+    <ul>
+      <li>Connectors are deterministic fixtures — real ones hide auth, retries, pagination, and rate limits.</li>
+      <li>Drift is seeded in one connector; real duplicated integrations diverge in subtler ways.</li>
+      <li>Read-only cables illustrate direction — a real MCP server still needs an authorization layer you build.</li>
+      <li>The count is structural, not a cost estimate — adapters still take real work, just once per side.</li>
+    </ul>
+    <p><a class="try" href="/">Return to Lab</a></p>
+  </section>
+</main>
+<!-- pb-shell --><a class="pb-shell" href="https://github.com/anhquanbd2021/4-ai-apps-5-tools-thats-20-custom" title="4-ai-apps-5-tools-thats-20-custom — an Article Playbook demo (view source)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="#2dd4bf"/><rect x="13" y="2" width="9" height="9" rx="2" fill="#2dd4bf" opacity=".45"/><rect x="2" y="13" width="9" height="9" rx="2" fill="#2dd4bf" opacity=".45"/><rect x="13" y="13" width="9" height="9" rx="4.5" fill="#2dd4bf"/></svg><b>4-ai-apps-5-tools-thats-20-custom</b><i>DEMO</i></a><!-- pb-shell --><!-- pb-back --><a class="pb-back" id="pb-back" href="https://github.com/anhquanbd2021/4-ai-apps-5-tools-thats-20-custom" title="Back to the article — 4-ai-apps-5-tools-thats-20-custom">← Article <i>PLAYBOOK</i></a><script>(function(){var a=document.getElementById('pb-back');if(!a)return;var h=location.hostname;if(/^(localhost|127\.0\.0\.1|192\.168\.|10\.|172\.(1[6-9]|2[0-9]|3[01])\.)/.test(h)){a.href='//'+h+':'+(/^(localhost|127\.0\.0\.1)$/.test(h)?'1234':'30082')+'/microsites/article.html?slug=4-ai-apps-5-tools-thats-20-custom';}})();</script><!-- pb-back --></body>
+</html>

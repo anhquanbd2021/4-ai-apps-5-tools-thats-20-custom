@@ -1,0 +1,16 @@
+{
+  "name": "4-ai-apps-5-tools-thats-20-custom-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "4 Ai Apps 5 Tools Thats 20 Custom Lab — companion interactive demo",
+  "scripts": {
+    "start": "node app/server.js",
+    "matrix": "node scripts/matrix.mjs",
+    "test": "node --test \"test/*.test.mjs\"",
+    "check": "npm test && npm run matrix"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}
